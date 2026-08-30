@@ -94,6 +94,34 @@ const setUnlockedCount = (value: number) => {
 };
 
 export function ForestGate({ chapter, chapterIndex, compact = false, onUnlocked }: GateProps) {
+  if (chapter.slug === "roots") {
+    return <UnityGameGate chapter={chapter} compact={compact} />;
+  }
+
+  return <CanvasGameGate chapter={chapter} chapterIndex={chapterIndex} compact={compact} onUnlocked={onUnlocked} />;
+}
+
+function UnityGameGate({ chapter, compact = false }: Pick<GateProps, "chapter" | "compact">) {
+  return (
+    <div className={`gate-card unity-gate-card ${compact ? "compact" : ""}`}>
+      <div className="gate-copy">
+        <p className="eyebrow">Chapter access</p>
+        <h2>{chapter.boss} the {chapter.bossSpecies}</h2>
+        <p>Play the Unity level to open this chapter.</p>
+      </div>
+      <div className="unity-game-wrap">
+        <iframe
+          className="unity-game-frame"
+          src={sitePath("/Build/index.html")}
+          title={`${chapter.title} Unity level`}
+          allow="fullscreen"
+        />
+      </div>
+    </div>
+  );
+}
+
+function CanvasGameGate({ chapter, chapterIndex, compact = false, onUnlocked }: GateProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const inputRef = useRef<Set<string>>(new Set());
   const playerRef = useRef(initialPlayer());

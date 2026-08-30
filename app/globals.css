@@ -382,6 +382,25 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.65rem); line-height: 1.12; }
 
 .gate-canvas-wrap canvas { display: block; width: 100%; height: 100%; }
 
+.unity-gate-card { background: rgba(255, 253, 240, 0.94); }
+
+.unity-game-wrap {
+  position: relative;
+  overflow: hidden;
+  min-height: 340px;
+  background: #231f20;
+  border: 2px solid rgba(35, 121, 70, 0.55);
+  border-radius: 6px;
+  aspect-ratio: 16 / 10;
+}
+
+.unity-game-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 .gate-overlay {
   position: absolute;
   inset: 0;
@@ -501,6 +520,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.65rem); line-height: 1.12; }
   h1 { font-size: clamp(3.2rem, 17vw, 5.2rem); }
   .chapter-grid, .gate-controls { grid-template-columns: 1fr; }
   .gate-canvas-wrap { aspect-ratio: 4 / 3; }
+  .unity-game-wrap { min-height: 0; aspect-ratio: 4 / 3; }
   .site-footer { align-items: flex-start; flex-direction: column; }
 }
 

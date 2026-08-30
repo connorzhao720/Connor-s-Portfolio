@@ -33,6 +33,29 @@ const localBindingConfig = {
     : [],
 };
 
+const unityGzipHeaders = () => ({
+  name: "unity-gzip-headers",
+  configureServer(server: { middlewares: { use: (handler: (request: { url?: string }, response: { setHeader: (name: string, value: string) => void }, next: () => void) => void) => void } }) {
+    server.middlewares.use((request, response, next) => {
+      const pathname = request.url?.split("?")[0] ?? "";
+
+      if (pathname.endsWith(".gz")) {
+        response.setHeader("Content-Encoding", "gzip");
+        response.setHeader(
+          "Content-Type",
+          pathname.endsWith(".wasm.gz")
+            ? "application/wasm"
+            : pathname.endsWith(".framework.js.gz")
+              ? "application/javascript"
+              : "application/octet-stream",
+        );
+      }
+
+      next();
+    });
+  },
+});
+
 export default defineConfig(async () => {
   // Keep Wrangler and Miniflare state project-local. These are non-secret tool
   // settings; application environment belongs in ignored `.env*` files.
@@ -48,6 +71,7 @@ export default defineConfig(async () => {
       ? { watch: { useFsEvents: false, usePolling: true } }
       : undefined,
     plugins: [
+      unityGzipHeaders(),
       vinext(),
       sites(),
       cloudflare({

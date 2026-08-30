@@ -34,6 +34,7 @@ test("server-renders the reference-inspired portfolio shell", async () => {
   assert.match(html, /Every part of the story has its own page\./i);
   assert.match(html, /Chapter access/i);
   assert.match(html, /Reset Journey/i);
-  assert.match(html, /Start/i);
+  assert.match(html, /Play the Unity level to open this chapter\./i);
+  assert.match(html, /src="\/Build\/index\.html"/i);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|react-loading-skeleton/i);
 });
