@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { chapters, storageKey, type Chapter } from "../portfolio-data";
+import { sitePath } from "../site-path";
 
 type GateProps = {
   chapter: Chapter;
@@ -94,7 +94,6 @@ const setUnlockedCount = (value: number) => {
 };
 
 export function ForestGate({ chapter, chapterIndex, compact = false, onUnlocked }: GateProps) {
-  const router = useRouter();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const inputRef = useRef<Set<string>>(new Set());
   const playerRef = useRef(initialPlayer());
@@ -155,7 +154,7 @@ export function ForestGate({ chapter, chapterIndex, compact = false, onUnlocked 
     setMessage(`${chapter.title} is open. Entering the chapter page.`);
     setState("won");
     onUnlocked?.();
-    window.setTimeout(() => router.push(chapter.route), 600);
+    window.setTimeout(() => window.location.assign(sitePath(chapter.route)), 600);
   };
 
   const updateGame = (dt: number) => {

@@ -14,15 +14,15 @@
   --glass: rgba(246, 255, 235, 0.72);
   --line: rgba(24, 60, 42, 0.18);
   --shadow: rgba(12, 58, 34, 0.18);
-  --font-display: "Arial Narrow", "Aptos Display", var(--font-geist-sans), Arial, sans-serif;
-  --font-body: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  --font-display: "Arial Narrow", "Aptos Display", Arial, sans-serif;
+  --font-body: Arial, Helvetica, sans-serif;
 }
 
 @theme inline {
   --color-background: var(--paper);
   --color-foreground: var(--ink);
   --font-sans: var(--font-body);
-  --font-mono: var(--font-geist-mono);
+  --font-mono: ui-monospace, SFMono-Regular, Consolas, monospace;
 }
 
 * { box-sizing: border-box; }
@@ -78,7 +78,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.65rem); line-height: 1.12; }
   inset: 0;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0) 36%, rgba(245, 255, 227, 0.1) 63%, rgba(20, 61, 34, 0.06)),
-    url("/portfolio-landscape.png") center top / cover no-repeat;
+    url("../portfolio-landscape.png") center top / cover no-repeat;
   content: "";
 }
 
@@ -374,7 +374,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.65rem); line-height: 1.12; }
 .gate-canvas-wrap {
   position: relative;
   overflow: hidden;
-  background: #8ee7e4 url("/portfolio-landscape.png") center / cover;
+  background: #8ee7e4 url("../portfolio-landscape.png") center / cover;
   border: 2px solid rgba(35, 121, 70, 0.55);
   border-radius: 6px;
   aspect-ratio: 19 / 9;

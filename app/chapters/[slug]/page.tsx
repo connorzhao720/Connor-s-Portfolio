@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChapterPageClient } from "../../components/ChapterPageClient";
 import { chapters, getChapter, getChapterIndex } from "../../portfolio-data";
+import { sitePath } from "../../site-path";
 
 export function generateStaticParams() {
   return chapters.map((chapter) => ({ slug: chapter.slug }));
@@ -20,13 +20,13 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
   return (
     <main className="portfolio-site illustrated-scene chapter-page">
       <nav className="site-nav chapter-nav" aria-label="Portfolio navigation">
-        <Link className="site-brand" href="/">
+        <a className="site-brand" href={sitePath("/")}>
           <span aria-hidden="true" /> Connor&apos;s Portfolio
-        </Link>
+        </a>
         <div className="site-nav-links">
-          <Link href="/#about">About</Link>
-          <Link href="/#chapters">Chapters</Link>
-          <Link href="/#contact">Contact</Link>
+          <a href={sitePath("/#about")}>About</a>
+          <a href={sitePath("/#chapters")}>Chapters</a>
+          <a href={sitePath("/#contact")}>Contact</a>
         </div>
       </nav>
       <ChapterPageClient chapter={chapter} chapterIndex={chapterIndex} previous={previous} next={next} />

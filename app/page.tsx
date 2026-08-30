@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ForestGate } from "./components/ForestGate";
 import { chapters, storageKey } from "./portfolio-data";
+import { sitePath } from "./site-path";
 
 const readUnlockedCount = () => {
   if (typeof window === "undefined") return 0;
@@ -36,9 +36,9 @@ export default function Home() {
   return (
     <main className="portfolio-site illustrated-scene">
       <nav className="site-nav" aria-label="Main navigation">
-        <Link className="site-brand" href="/" aria-label="Connor's Portfolio home">
+        <a className="site-brand" href={sitePath("/")} aria-label="Connor's Portfolio home">
           <span aria-hidden="true" /> Connor&apos;s Portfolio
-        </Link>
+        </a>
         <div className="site-nav-links">
           <a href="#about">About</a>
           <a href="#chapters">Chapters</a>
@@ -54,7 +54,7 @@ export default function Home() {
           </p>
           <div className="hero-actions">
             <a href="#chapters">Explore Chapters</a>
-            {unlockedCount > 0 ? <Link href={chapters[unlockedCount - 1].route}>Continue Reading</Link> : <a href="#gate">Begin</a>}
+            {unlockedCount > 0 ? <a href={sitePath(chapters[unlockedCount - 1].route)}>Continue Reading</a> : <a href="#gate">Begin</a>}
           </div>
         </div>
         <aside className="profile-note" aria-label="Portfolio overview">
@@ -99,7 +99,7 @@ export default function Home() {
                 <div className="chapter-card-footer">
                   <strong>{chapter.difficulty}</strong>
                   {isUnlocked ? (
-                    <Link href={chapter.route}>Read Page</Link>
+                    <a href={sitePath(chapter.route)}>Read Page</a>
                   ) : isNext ? (
                     <a href="#gate">Open Chapter</a>
                   ) : (
@@ -124,7 +124,7 @@ export default function Home() {
           <div className="all-open-card">
             <h3>Everything is open.</h3>
             <p>Every chapter page is unlocked. You can move through the portfolio in any order.</p>
-            <Link href={chapters[0].route}>Start Reading</Link>
+            <a href={sitePath(chapters[0].route)}>Start Reading</a>
           </div>
         ) : (
           <ForestGate chapter={nextChapter} chapterIndex={nextIndex} compact onUnlocked={() => setUnlockedCount(readUnlockedCount())} />

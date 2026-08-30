@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ForestGate } from "./ForestGate";
 import { chapters, storageKey, type Chapter } from "../portfolio-data";
+import { sitePath } from "../site-path";
 
 type Props = {
   chapter: Chapter;
@@ -37,7 +37,7 @@ export function ChapterPageClient({ chapter, chapterIndex, previous, next }: Pro
             This is a full chapter page, but it stays closed until its short entry challenge is complete. The interaction
             is only the doorway; the portfolio is the destination.
           </p>
-          {!canAttempt && <Link href="/">Return to chapters</Link>}
+          {!canAttempt && <a href={sitePath("/")}>Return to chapters</a>}
         </div>
         {canAttempt ? (
           <ForestGate chapter={chapter} chapterIndex={chapterIndex} onUnlocked={() => setUnlockedCount(readUnlockedCount())} />
@@ -88,8 +88,8 @@ export function ChapterPageClient({ chapter, chapterIndex, previous, next }: Pro
       </section>
 
       <section className="chapter-next" aria-label="Chapter navigation">
-        {previous ? <Link href={previous.route}>Previous: {previous.title}</Link> : <Link href="/">Back to Chapters</Link>}
-        {next ? <Link href={next.route}>Next: {next.title}</Link> : <Link href="/">Return Home</Link>}
+        {previous ? <a href={sitePath(previous.route)}>Previous: {previous.title}</a> : <a href={sitePath("/")}>Back to Chapters</a>}
+        {next ? <a href={sitePath(next.route)}>Next: {next.title}</a> : <a href={sitePath("/")}>Return Home</a>}
       </section>
     </>
   );
