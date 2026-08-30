@@ -116,6 +116,10 @@
         const headers = new Headers(response.headers);
         headers.delete("Content-Length");
         headers.set("Content-Encoding", "gzip");
+        headers.set(
+          "Content-Type",
+          url.includes(".wasm.gz") ? "application/wasm" : "application/octet-stream",
+        );
 
         return new Response(response.body.pipeThrough(new DecompressionStream("gzip")), {
           status: response.status,
