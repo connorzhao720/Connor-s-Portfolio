@@ -56,7 +56,7 @@
       var config = {
         arguments: [],
         dataUrl: buildUrl + "/Build.data.gz",
-        frameworkUrl: buildUrl + "/Build.framework.js.gz",
+        frameworkUrl: buildUrl + "/Build.framework.js",
         codeUrl: buildUrl + "/Build.wasm.gz",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
@@ -86,6 +86,43 @@
       // existing user projects that might rely on the earlier manual
       // JS_FileSystem_Sync() behavior, but in future Unity version, this will be
       // expected to change.
+
+      // GitHub Pages serves static .gz files without the Content-Encoding header
+      // Unity expects. Decompress the large binary files in browsers where that
+      // header is unavailable, while keeping the exported files compact.
+      const nativeFetch = window.fetch.bind(window);
+      window.fetch = async (input, init) => {
+        const url = input instanceof Request
+          ? input.url
+          : input instanceof URL
+            ? input.href
+            : input;
+        const isCompressedUnityAsset = /Build\.(data|wasm)\.gz(?:$|\?)/.test(url);
+
+        if (!isCompressedUnityAsset) {
+          return nativeFetch(input, init);
+        }
+
+        const response = await nativeFetch(input, init);
+        if (
+          !response.ok ||
+          response.headers.get("Content-Encoding") === "gzip" ||
+          !("DecompressionStream" in window) ||
+          !response.body
+        ) {
+          return response;
+        }
+
+        const headers = new Headers(response.headers);
+        headers.delete("Content-Length");
+        headers.set("Content-Encoding", "gzip");
+
+        return new Response(response.body.pipeThrough(new DecompressionStream("gzip")), {
+          status: response.status,
+          statusText: response.statusText,
+          headers,
+        });
+      };
 
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Mobile device style: fill the whole browser client area with the game canvas:
