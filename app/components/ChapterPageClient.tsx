@@ -45,7 +45,7 @@ export function ChapterPageClient({ chapter, chapterIndex, previous, next }: Pro
           <div className="all-open-card">
             <h2>Earlier chapters are still locked.</h2>
             <p>Open the chapters in order from the home page.</p>
-          </div>
+          </div> 
         )}
       </section>
     );
